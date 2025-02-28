@@ -1,6 +1,8 @@
 # daily_diary
 
-A new Flutter project.
+오늘의 기록을 오늘의 기분과 함께 남기는 간단한 다이어리 어플입니다.
+
+2025.2.28 - 개발 시작
 
 ## Getting Started
 

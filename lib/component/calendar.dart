@@ -14,6 +14,17 @@ class Calendar extends StatelessWidget {
       focusedDay: focusedDay,
       firstDay: DateTime(1800),
       lastDay: DateTime(3000),
+      locale: 'ko_KR',
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+        titleTextStyle: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'BMDoHyeon',
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }
