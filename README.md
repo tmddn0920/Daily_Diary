@@ -3,7 +3,12 @@
 오늘의 기록을 오늘의 기분과 함께 남기는 간단한 다이어리 어플입니다.
 
 2025.2.28 - 개발 시작, 메인 화면 디자인 및 이모티콘 이미지 제작
+
+![Main.png](process_images/Main.png)
+
 2025.2.29 - 일기 작성 페이지 디자인
+
+![Write.png](process_images/Write.png)
 
 ## Getting Started
 
