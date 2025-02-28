@@ -28,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
         child: Stack(
           children: [
             _buildCalendar(),
+            _buildEmotionStatus(),
             _buildFloatingButton(),
           ],
         ),
@@ -43,7 +44,7 @@ class _MainScreenState extends State<MainScreen> {
           onPressed: () {},
           icon: Icon(
             Icons.settings,
-            color: Colors.white,
+            color: iconColor,
           ),
         ),
       ],
@@ -82,6 +83,59 @@ class _MainScreenState extends State<MainScreen> {
         ),
         elevation: 0,
       ),
+    );
+  }
+
+  Widget _buildEmotionStatus() {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
+
+    return Positioned(
+      bottom: screenHeight * 0.15,
+      left: 16.0,
+      right: 16.0,
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          vertical: 12,
+        ),
+        decoration: BoxDecoration(
+          color: mainColor,
+          borderRadius: BorderRadius.circular(16.0),
+          border: Border.all(color: iconColor, width: 2),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _buildEmotionItem('asset/img/emotion/happy.png', '0', screenWidth),
+            _buildEmotionItem('asset/img/emotion/normal.png', '0', screenWidth),
+            _buildEmotionItem('asset/img/emotion/worry.png', '0', screenWidth),
+            _buildEmotionItem('asset/img/emotion/sad.png', '0', screenWidth),
+            _buildEmotionItem('asset/img/emotion/mad.png', '0', screenWidth),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmotionItem(String imagePath, String label, double screenWidth) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: screenWidth * 0.12,
+          height: screenWidth * 0.12,
+          child: Image.asset(imagePath, fit: BoxFit.contain),
+        ),
+        SizedBox(height: 12),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 12,
+            fontFamily: 'Fredoka',
+            color: Colors.black,
+          ),
+        ),
+      ],
     );
   }
 }
