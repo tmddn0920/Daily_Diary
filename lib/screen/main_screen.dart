@@ -1,4 +1,5 @@
 import 'package:daily_diary/const/color.dart';
+import 'package:daily_diary/screen/write_screen.dart';
 import 'package:flutter/material.dart';
 import '../component/calendar.dart';
 
@@ -39,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: mainColor,
+      foregroundColor: iconColor,
       actions: [
         IconButton(
           onPressed: () {},
@@ -71,7 +73,14 @@ class _MainScreenState extends State<MainScreen> {
       bottom: screenHeight * 0.05,
       right: screenWidth * 0.05,
       child: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => WriteScreen(selectedDate: selectedDate),
+            ),
+          );
+        },
         backgroundColor: iconColor,
         child: Icon(
           Icons.edit,
