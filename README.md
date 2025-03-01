@@ -6,8 +6,9 @@
 
 ![Main.png](process_images/Main.png)
 
-2025.2.29 - 일기 작성 페이지 디자인
+2025.3.1 - 일기 작성 페이지 디자인 및 로컬 데이터베이스 적용, 일부 기능 수정
 
+![Main(2).png](process_images/Main%282%29.png)
 ![Write.png](process_images/Write.png)
 
 ## Getting Started
