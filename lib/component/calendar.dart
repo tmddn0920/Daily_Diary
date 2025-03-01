@@ -6,11 +6,13 @@ class Calendar extends StatelessWidget {
   final OnDaySelected onDaySelected;
   final DateTime selectedDate;
   final Map<DateTime, int> emotions;
+  final Function(DateTime)? onPageChanged;
 
   const Calendar({
     required this.onDaySelected,
     required this.selectedDate,
     required this.emotions,
+    this.onPageChanged,
     super.key,
   });
 
@@ -33,6 +35,11 @@ class Calendar extends StatelessWidget {
       calendarBuilders: _buildCalendarBuilders(),
       daysOfWeekStyle: _buildDaysOfWeekStyle(),
       onDaySelected: onDaySelected,
+      onPageChanged: (focusedDay) {
+        if (onPageChanged != null) {
+          onPageChanged!(focusedDay);
+        }
+      },
     );
   }
 

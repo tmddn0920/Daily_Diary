@@ -14,15 +14,18 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   DateTime selectedDate = DateTime.now();
+  DateTime currentMonth =
+      DateTime(DateTime.now().year, DateTime.now().month, 1);
   Map<DateTime, int> emotions = {};
   Map<int, int> emotionStats = {};
 
   @override
   void initState() {
     super.initState();
-    _loadEmotionsForMonth(selectedDate);
+    _loadEmotionsForMonth(currentMonth);
   }
 
+  // ✅ 특정 월의 감정 데이터를 불러오는 함수
   Future<void> _loadEmotionsForMonth(DateTime date) async {
     final db = Provider.of<AppDatabase>(context, listen: false);
 
@@ -38,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
               entry.emotion
       };
 
-      // 감정 통계 계산
+      // ✅ 감정 통계 초기화 후 재계산
       emotionStats = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0};
       for (var entry in diaryEntries) {
         emotionStats[entry.emotion] = (emotionStats[entry.emotion] ?? 0) + 1;
@@ -46,6 +49,7 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  // ✅ 날짜 선택 시 일기 화면으로 이동 & 저장 후 데이터 갱신
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
     Navigator.push(
       context,
@@ -54,7 +58,7 @@ class _MainScreenState extends State<MainScreen> {
       ),
     ).then((result) {
       if (result == true) {
-        _loadEmotionsForMonth(selectedDate);
+        _loadEmotionsForMonth(currentMonth); // ✅ 저장 후 현재 월 데이터 갱신
       }
     });
   }
@@ -88,6 +92,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  // ✅ 캘린더 (월이 바뀔 때마다 데이터 갱신 추가)
   Widget _buildCalendar() {
     return Expanded(
       child: Padding(
@@ -96,11 +101,24 @@ class _MainScreenState extends State<MainScreen> {
           selectedDate: selectedDate,
           onDaySelected: onDaySelected,
           emotions: emotions,
+          onPageChanged: (focusedDay) {
+            final newMonth = DateTime(focusedDay.year, focusedDay.month, 1);
+            if (newMonth != currentMonth) {
+              setState(
+                () {
+                  currentMonth = newMonth;
+                  selectedDate = focusedDay;
+                },
+              );
+              _loadEmotionsForMonth(newMonth);
+            }
+          },
         ),
       ),
     );
   }
 
+  // ✅ 감정 통계 박스 (이전 달, 다음 달 이동 시 자동 변경)
   Widget _buildEmotionStatus() {
     final screenWidth = MediaQuery.of(context).size.width;
 
