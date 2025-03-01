@@ -1,6 +1,9 @@
 # daily_diary
 
 오늘의 기록을 오늘의 기분과 함께 남기는 간단한 다이어리 어플입니다.
+플러터 개발을 처음 접하는 분들이 참고하실 수 있게 코드를 기록합니다.
+
+## 개발 과정
 
 2025.2.28 - 개발 시작, 메인 화면 디자인 및 이모티콘 이미지 제작
 
@@ -11,15 +14,3 @@
 ![Main(2).png](process_images/Main%282%29.png)
 ![Write.png](process_images/Write.png)
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
