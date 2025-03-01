@@ -1,10 +1,24 @@
-import 'package:daily_diary/screen/main_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:daily_diary/data/local/database.dart';
+import 'package:daily_diary/screen/main_screen.dart';
 
 void main() {
   runApp(
-    MaterialApp(
+    MultiProvider(
+      providers: [
+        Provider(create: (_) => AppDatabase()),
+      ],
+      child: MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
@@ -15,6 +29,6 @@ void main() {
         Locale('ko', 'KR'),
       ],
       home: MainScreen(),
-    )
-  );
+    );
+  }
 }

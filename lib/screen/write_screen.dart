@@ -1,8 +1,12 @@
+import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
-import '../const/color.dart';
+import 'package:daily_diary/const/color.dart';
+import 'package:daily_diary/data/local/database.dart';
+import 'package:provider/provider.dart';
 
 class WriteScreen extends StatefulWidget {
   final DateTime selectedDate;
+
   const WriteScreen({required this.selectedDate, super.key});
 
   @override
@@ -13,14 +17,69 @@ class _WriteScreenState extends State<WriteScreen> {
   final TextEditingController _controller = TextEditingController();
   TextAlign _textAlign = TextAlign.left;
   bool _isBold = false;
+  int selectedEmotion = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadExistingDiary();
+  }
+
+  Future<void> _loadExistingDiary() async {
+    final db = Provider.of<AppDatabase>(context, listen: false);
+    final dao = db.diaryDao;
+
+    final existingDiary = await dao.getDiaryByDate(widget.selectedDate);
+    if (existingDiary != null) {
+      setState(() {
+        _controller.text = existingDiary.content;
+        selectedEmotion = existingDiary.emotion;
+        _textAlign = TextAlign.values[existingDiary.textAlign];
+        _isBold = existingDiary.isBold;
+      });
+    }
+  }
+
+  Future<void> _saveDiary() async {
+    final db = Provider.of<AppDatabase>(context, listen: false);
+    final dao = db.diaryDao;
+
+    final existingDiary = await dao.getDiaryByDate(widget.selectedDate);
+
+    if (existingDiary == null) {
+      await dao.insertDiary(DiariesCompanion(
+        date: drift.Value(widget.selectedDate),
+        emotion: drift.Value(selectedEmotion),
+        content: drift.Value(_controller.text),
+        textAlign: drift.Value(_textAlign.index),
+        isBold: drift.Value(_isBold),
+      ));
+    } else {
+      await dao.updateDiary(existingDiary.copyWith(
+        content: _controller.text,
+        emotion: selectedEmotion,
+        textAlign: _textAlign.index,
+        isBold: _isBold,
+      ));
+    }
+
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final GlobalKey _iconKey = GlobalKey();
+
     return Scaffold(
       appBar: AppBar(
-        scrolledUnderElevation: 0,
         backgroundColor: mainColor,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.save, color: iconColor),
+            onPressed: _saveDiary,
+          ),
+        ],
       ),
       backgroundColor: mainColor,
       body: SafeArea(
@@ -30,10 +89,14 @@ class _WriteScreenState extends State<WriteScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 12.0),
               child: Center(
-                child: Image.asset(
-                  'asset/img/emotion/happy.png',
-                  width: screenWidth * 0.16,
-                  height: screenWidth * 0.16,
+                child: GestureDetector(
+                  key: _iconKey,
+                  onTap: () => _showEmotionPicker(context, _iconKey),
+                  child: Image.asset(
+                    'asset/img/emotion/${_getEmotionFileName(selectedEmotion)}.png',
+                    width: screenWidth * 0.16,
+                    height: screenWidth * 0.16,
+                  ),
                 ),
               ),
             ),
@@ -66,9 +129,6 @@ class _WriteScreenState extends State<WriteScreen> {
                   decoration: InputDecoration(
                     hintText: "오늘 어떤 하루를 보내셨나요?",
                     border: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 12.0,
-                    ),
                   ),
                 ),
               ),
@@ -76,42 +136,96 @@ class _WriteScreenState extends State<WriteScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                IconButton(
-                  icon: Icon(Icons.format_align_left),
-                  onPressed: () => setState(() => _textAlign = TextAlign.left),
-                  color:
-                      _textAlign == TextAlign.left ? Colors.black : iconColor,
-                ),
-                IconButton(
-                  icon: Icon(Icons.format_align_center),
-                  onPressed: () =>
-                      setState(() => _textAlign = TextAlign.center),
-                  color:
-                      _textAlign == TextAlign.center ? Colors.black : iconColor,
-                ),
-                IconButton(
-                  icon: Icon(Icons.format_align_right),
-                  onPressed: () => setState(() => _textAlign = TextAlign.right),
-                  color:
-                      _textAlign == TextAlign.right ? Colors.black : iconColor,
-                ),
+                _buildTextAlignButton(Icons.format_align_left, TextAlign.left),
+                _buildTextAlignButton(Icons.format_align_center, TextAlign.center),
+                _buildTextAlignButton(Icons.format_align_right, TextAlign.right),
                 IconButton(
                   icon: Icon(Icons.format_bold),
                   onPressed: () => setState(() => _isBold = !_isBold),
                   color: _isBold ? Colors.black : iconColor,
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    _controller.dispose();
-    super.dispose();
+  void _showEmotionPicker(BuildContext context, GlobalKey iconKey) {
+    final RenderBox renderBox = iconKey.currentContext!.findRenderObject() as RenderBox;
+    final Offset position = renderBox.localToGlobal(Offset.zero);
+    final double iconCenterX = position.dx + (renderBox.size.width / 2);
+    final double boxWidth = 320;
+
+    showDialog(
+      context: context,
+      barrierColor: Colors.transparent,
+      builder: (context) {
+        return Stack(
+          children: [
+            Positioned(
+              top: position.dy + 10,
+              left: iconCenterX - (boxWidth / 2),
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  width: boxWidth,
+                  padding: EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: iconColor, width: 2),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: List.generate(5, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            selectedEmotion = index;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Image.asset(
+                          'asset/img/emotion/${_getEmotionFileName(index)}.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+  
+  String _getEmotionFileName(int index) {
+    switch (index) {
+      case 0:
+        return "happy";
+      case 1:
+        return "normal";
+      case 2:
+        return "worry";
+      case 3:
+        return "sad";
+      case 4:
+        return "mad";
+      default:
+        return "happy";
+    }
+  }
+
+  Widget _buildTextAlignButton(IconData icon, TextAlign align) {
+    return IconButton(
+      icon: Icon(icon),
+      onPressed: () => setState(() => _textAlign = align),
+      color: _textAlign == align ? Colors.black : iconColor,
+    );
   }
 }
