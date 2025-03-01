@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:daily_diary/data/local/database.dart';
@@ -6,6 +7,8 @@ import 'package:daily_diary/screen/main_screen.dart';
 import 'package:daily_diary/provider/theme_provider.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
   runApp(
     MultiProvider(
       providers: [

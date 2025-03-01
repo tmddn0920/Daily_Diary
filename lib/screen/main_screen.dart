@@ -2,6 +2,7 @@ import 'package:daily_diary/const/color.dart';
 import 'package:daily_diary/screen/settings_screen.dart';
 import 'package:daily_diary/screen/write_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import '../component/calendar.dart';
 import 'package:daily_diary/data/local/database.dart';
@@ -19,10 +20,33 @@ class _MainScreenState extends State<MainScreen> {
   DateTime(DateTime.now().year, DateTime.now().month, 1);
   Map<DateTime, int> emotions = {};
   Map<int, int> emotionStats = {};
+  BannerAd? _bannerAd;
+  bool _isAdLoaded = false;
+
+  void _loadBannerAd() {
+    _bannerAd = BannerAd(
+      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      size: AdSize.banner,
+      request: AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (Ad ad) {
+          setState(() {
+            _isAdLoaded = true;
+          });
+        },
+        onAdFailedToLoad: (Ad ad, LoadAdError error) {
+          ad.dispose();
+          print('Failed to load ad: $error');
+        },
+      ),
+    );
+    _bannerAd!.load();
+  }
 
   @override
   void initState() {
     super.initState();
+    _loadBannerAd();
     _loadEmotionsForMonth(currentMonth);
   }
 
@@ -71,6 +95,12 @@ class _MainScreenState extends State<MainScreen> {
           children: [
             _buildCalendar(),
             _buildEmotionStatus(context),
+            if (_isAdLoaded)
+              Container(
+                height: _bannerAd!.size.height.toDouble(),
+                width: _bannerAd!.size.width.toDouble(),
+                child: AdWidget(ad: _bannerAd!),
+              ),
           ],
         ),
       ),
