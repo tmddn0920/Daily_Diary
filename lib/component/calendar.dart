@@ -46,28 +46,29 @@ class Calendar extends StatelessWidget {
   CalendarBuilders _buildCalendarBuilders() {
     return CalendarBuilders(
       markerBuilder: (context, day, events) {
-        final DateTime normalizedDay = DateTime.utc(day.year, day.month, day.day);
+        final DateTime normalizedDay =
+            DateTime.utc(day.year, day.month, day.day);
         if (emotions.containsKey(normalizedDay)) {
           return Center(
             child: Image.asset(
               'asset/img/emotion/${_getEmotionFileName(emotions[normalizedDay]!)}.png',
-              width: 32,
-              height: 32,
+              width: 40,
+              height: 40,
             ),
           );
         }
         return null;
       },
       defaultBuilder: (context, day, focusedDay) {
-        final DateTime normalizedDay = DateTime.utc(day.year, day.month, day.day);
-
         return Center(
           child: Text(
             '${day.day}',
             style: _baseTextStyle.copyWith(
-              color: (day.weekday == DateTime.saturday) ? Colors.blueAccent
-                  : (day.weekday == DateTime.sunday) ? Colors.redAccent
-                  : Colors.black,
+              color: (day.weekday == DateTime.saturday)
+                  ? Colors.blueAccent
+                  : (day.weekday == DateTime.sunday)
+                      ? Colors.redAccent
+                      : Colors.black,
             ),
           ),
         );
@@ -123,9 +124,11 @@ class Calendar extends StatelessWidget {
         color: Colors.transparent,
       ),
       todayTextStyle: _baseTextStyle.copyWith(
-        color: isSaturday ? Colors.blueAccent
-            : isSunday ? Colors.redAccent
-            : Colors.black,
+        color: isSaturday
+            ? Colors.blueAccent
+            : isSunday
+                ? Colors.redAccent
+                : Colors.black,
       ),
     );
   }
