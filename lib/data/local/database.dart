@@ -14,8 +14,6 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
-
-  DiaryDao get diaryDao => DiaryDao(this);
 }
 
 LazyDatabase _openConnection() {

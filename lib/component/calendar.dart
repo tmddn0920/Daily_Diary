@@ -1,4 +1,3 @@
-import 'package:daily_diary/const/color.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -6,9 +5,12 @@ import 'package:table_calendar/table_calendar.dart';
 class Calendar extends StatelessWidget {
   final OnDaySelected onDaySelected;
   final DateTime selectedDate;
+  final Map<DateTime, int> emotions;
+
   const Calendar({
     required this.onDaySelected,
     required this.selectedDate,
+    required this.emotions,
     super.key,
   });
 
@@ -31,14 +33,58 @@ class Calendar extends StatelessWidget {
       calendarBuilders: _buildCalendarBuilders(),
       daysOfWeekStyle: _buildDaysOfWeekStyle(),
       onDaySelected: onDaySelected,
-      selectedDayPredicate: (date) =>
-          date.year == selectedDate.year &&
-          date.month == selectedDate.month &&
-          date.day == selectedDate.day,
     );
   }
 
-  // 헤더 스타일
+  CalendarBuilders _buildCalendarBuilders() {
+    return CalendarBuilders(
+      markerBuilder: (context, day, events) {
+        final DateTime normalizedDay = DateTime.utc(day.year, day.month, day.day);
+        if (emotions.containsKey(normalizedDay)) {
+          return Center(
+            child: Image.asset(
+              'asset/img/emotion/${_getEmotionFileName(emotions[normalizedDay]!)}.png',
+              width: 32,
+              height: 32,
+            ),
+          );
+        }
+        return null;
+      },
+      defaultBuilder: (context, day, focusedDay) {
+        final DateTime normalizedDay = DateTime.utc(day.year, day.month, day.day);
+
+        return Center(
+          child: Text(
+            '${day.day}',
+            style: _baseTextStyle.copyWith(
+              color: (day.weekday == DateTime.saturday) ? Colors.blueAccent
+                  : (day.weekday == DateTime.sunday) ? Colors.redAccent
+                  : Colors.black,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  String _getEmotionFileName(int emotion) {
+    switch (emotion) {
+      case 0:
+        return "happy";
+      case 1:
+        return "normal";
+      case 2:
+        return "worry";
+      case 3:
+        return "sad";
+      case 4:
+        return "mad";
+      default:
+        return "happy";
+    }
+  }
+
   HeaderStyle _buildHeaderStyle() {
     return HeaderStyle(
       formatButtonVisible: false,
@@ -48,14 +94,17 @@ class Calendar extends StatelessWidget {
       },
       titleTextStyle: _baseTextStyle.copyWith(
         fontSize: 20.0,
-        fontFamily: 'BMHanNaAir',
+        fontFamily: 'Fredoka',
         fontWeight: FontWeight.w900,
       ),
     );
   }
 
-  // 캘린더 스타일
   CalendarStyle _buildCalendarStyle() {
+    final today = DateTime.now();
+    final bool isSaturday = today.weekday == DateTime.saturday;
+    final bool isSunday = today.weekday == DateTime.sunday;
+
     return CalendarStyle(
       outsideDaysVisible: false,
       defaultTextStyle: _baseTextStyle,
@@ -64,58 +113,25 @@ class Calendar extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       todayDecoration: BoxDecoration(
-        border: Border.all(color: iconColor, width: 2),
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(8),
+        color: Colors.transparent,
       ),
       todayTextStyle: _baseTextStyle.copyWith(
-        color: DateTime.now().weekday == DateTime.saturday
-            ? Colors.blueAccent
-            : DateTime.now().weekday == DateTime.sunday
-                ? Colors.redAccent
-                : Colors.black,
-      ),
-      selectedDecoration: BoxDecoration(
-        color: iconColor,
-        shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      selectedTextStyle: _baseTextStyle.copyWith(
-        color: Colors.black,
+        color: isSaturday ? Colors.blueAccent
+            : isSunday ? Colors.redAccent
+            : Colors.black,
       ),
     );
   }
 
-  // 날짜별 스타일 빌더
-  CalendarBuilders _buildCalendarBuilders() {
-    return CalendarBuilders(
-      defaultBuilder: (context, day, focusedDay) {
-        if (day.weekday == DateTime.saturday) {
-          return _buildDayText(day.day, Colors.blueAccent);
-        } else if (day.weekday == DateTime.sunday) {
-          return _buildDayText(day.day, Colors.redAccent);
-        }
-        return null;
-      },
-    );
-  }
-
-  // 요일 스타일
   DaysOfWeekStyle _buildDaysOfWeekStyle() {
     return DaysOfWeekStyle(
       weekdayStyle: _baseTextStyle.copyWith(
-          fontFamily: 'BMHanNaAir', fontWeight: FontWeight.bold),
+        fontFamily: 'BMHanNaAir',
+        fontWeight: FontWeight.bold,
+      ),
       weekendStyle: _baseTextStyle.copyWith(
-          fontFamily: 'BMHanNaAir', fontWeight: FontWeight.bold),
-    );
-  }
-
-  // 요일 & 날짜 텍스트 위젯
-  Widget _buildDayText(int day, Color color) {
-    return Center(
-      child: Text(
-        day.toString(),
-        style: _baseTextStyle.copyWith(color: color),
+        fontFamily: 'BMHanNaAir',
+        fontWeight: FontWeight.bold,
       ),
     );
   }
