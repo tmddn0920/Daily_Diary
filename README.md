@@ -20,3 +20,6 @@
 ![Main(2).png](process_images/Main%282%29.png)
 ![Write.png](process_images/Write.png)
 
+2025.3.2 - 다크 모드 추가, 디자인 수정 및 광고 배너 추가
+
+![Main(3).png](process_images/Main%283%29.png)
