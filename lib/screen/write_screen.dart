@@ -20,6 +20,7 @@ class _WriteScreenState extends State<WriteScreen> {
   bool _isBold = false;
   int selectedEmotion = 0;
   bool _isEditing = false;
+
   @override
   void initState() {
     super.initState();
@@ -92,13 +93,14 @@ class _WriteScreenState extends State<WriteScreen> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          backgroundColor: mainColor,
+          backgroundColor: getMainColor(context),
           title: Text(
             "일기를 삭제하시나요?",
             style: TextStyle(
               fontFamily: 'BMHanNaAir',
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
+              color: getTextColor(context),
             ),
           ),
           actions: [
@@ -107,7 +109,7 @@ class _WriteScreenState extends State<WriteScreen> {
               child: Text(
                 "취소",
                 style: TextStyle(
-                  color: iconColor,
+                  color: getIconColor(context),
                   fontFamily: 'BMHanNaAir',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -122,7 +124,7 @@ class _WriteScreenState extends State<WriteScreen> {
               child: Text(
                 "삭제",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: Colors.redAccent,
                   fontFamily: 'BMHanNaAir',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
@@ -142,36 +144,36 @@ class _WriteScreenState extends State<WriteScreen> {
 
     return Platform.isAndroid
         ? PopScope(
-            canPop: true,
-            onPopInvoked: (didPop) async {
-              if (!didPop) {
-                await _saveDiary();
-              }
-            },
-            child: _buildScreen(screenWidth, _iconKey),
-          )
+      canPop: true,
+      onPopInvoked: (didPop) async {
+        if (!didPop) {
+          await _saveDiary();
+        }
+      },
+      child: _buildScreen(screenWidth, _iconKey),
+    )
         : WillPopScope(
-            onWillPop: () async {
-              await _saveDiary();
-              return true;
-            },
-            child: _buildScreen(screenWidth, _iconKey),
-          );
+      onWillPop: () async {
+        await _saveDiary();
+        return true;
+      },
+      child: _buildScreen(screenWidth, _iconKey),
+    );
   }
 
   Widget _buildScreen(double screenWidth, GlobalKey iconKey) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: mainColor,
+        backgroundColor: getMainColor(context),
         actions: [
           if (_isEditing)
             IconButton(
-              icon: Icon(Icons.delete, color: iconColor),
+              icon: Icon(Icons.delete, color: getIconColor(context)),
               onPressed: _confirmDelete,
             ),
         ],
       ),
-      backgroundColor: mainColor,
+      backgroundColor: getMainColor(context),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -195,6 +197,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   fontFamily: 'BMHanNaAir',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
+                  color: getTextColor(context),
                 ),
               ),
             ),
@@ -208,15 +211,20 @@ class _WriteScreenState extends State<WriteScreen> {
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   textAlignVertical: TextAlignVertical.top,
+                  scrollPadding: EdgeInsets.zero,
                   style: TextStyle(
-                    color: Colors.black,
+                    color: getTextColor(context),
                     fontFamily: 'BMHanNaAir',
                     fontSize: 16.0,
                     fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
                   ),
                   decoration: InputDecoration(
                     hintText: "오늘 어떤 하루를 보내셨나요?",
+                    hintStyle: TextStyle(color: getIconColor(context)),
                     border: InputBorder.none,
+                    isDense: true,
+                    contentPadding:
+                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   ),
                 ),
               ),
@@ -225,14 +233,12 @@ class _WriteScreenState extends State<WriteScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _buildTextAlignButton(Icons.format_align_left, TextAlign.left),
-                _buildTextAlignButton(
-                    Icons.format_align_center, TextAlign.center),
-                _buildTextAlignButton(
-                    Icons.format_align_right, TextAlign.right),
+                _buildTextAlignButton(Icons.format_align_center, TextAlign.center),
+                _buildTextAlignButton(Icons.format_align_right, TextAlign.right),
                 IconButton(
                   icon: Icon(Icons.format_bold),
                   onPressed: () => setState(() => _isBold = !_isBold),
-                  color: _isBold ? Colors.black : iconColor,
+                  color: _isBold ? getTextColor(context) : getIconColor(context),
                 ),
               ],
             ),
@@ -246,7 +252,7 @@ class _WriteScreenState extends State<WriteScreen> {
     return IconButton(
       icon: Icon(icon),
       onPressed: () => setState(() => _textAlign = align),
-      color: _textAlign == align ? Colors.black : iconColor,
+      color: _textAlign == align ? getTextColor(context) : getIconColor(context),
     );
   }
 
@@ -291,7 +297,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: iconColor, width: 2),
+                    border: Border.all(color: getIconColor(context), width: 2),
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
