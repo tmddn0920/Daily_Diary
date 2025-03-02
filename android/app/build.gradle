@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    namespace = "com.example.daily_diary"
-    compileSdk = flutter.compileSdkVersion
+    namespace = "com.seungrain.daily_diary"
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -20,14 +20,11 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.daily_diary"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = flutter.minSdkVersion
-        targetSdk = flutter.targetSdkVersion
-        versionCode = flutter.versionCode
-        versionName = flutter.versionName
+        applicationId "com.seungrain.daily_diary"
+        minSdk 21
+        targetSdk = 35
+        versionCode 1
+        versionName "1.0.0"
     }
 
     buildTypes {
@@ -41,4 +38,12 @@ android {
 
 flutter {
     source = "../.."
+}
+
+dependencies {
+    implementation "androidx.core:core-ktx:1.15.0"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation "androidx.activity:activity-ktx:1.10.1"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 }
