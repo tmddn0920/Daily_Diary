@@ -145,7 +145,7 @@ class _WriteScreenState extends State<WriteScreen> {
     return Platform.isAndroid
         ? PopScope(
       canPop: true,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if (!didPop) {
           await _saveDiary();
         }
