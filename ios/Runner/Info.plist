@@ -62,5 +62,10 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+    <array>
+        <string>Hakgyoansim_Dunggeunmiso_TTF_R.ttf</string>
+        <string>Hakgyoansim_Dunggeunmiso_TTF_B.ttf</string>
+    </array>
 </dict>
 </plist>

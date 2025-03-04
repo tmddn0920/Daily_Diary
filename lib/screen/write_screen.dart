@@ -104,7 +104,7 @@ class _WriteScreenState extends State<WriteScreen> {
             style: TextStyle(
               fontFamily: 'HakgyoansimDunggeunmiso',
               fontSize: 18.0,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w700,
               color: getTextColor(context),
             ),
           ),
@@ -117,7 +117,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   color: getIconColor(context),
                   fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -132,7 +132,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   color: Colors.redAccent,
                   fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -204,7 +204,7 @@ class _WriteScreenState extends State<WriteScreen> {
                 style: TextStyle(
                   fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w700,
                   color: getTextColor(context),
                 ),
               ),
@@ -222,9 +222,8 @@ class _WriteScreenState extends State<WriteScreen> {
                   scrollPadding: EdgeInsets.zero,
                   style: TextStyle(
                     color: getTextColor(context),
-                    fontFamily: 'HakgyoansimDunggeunmiso',
+                    fontFamily: _isBold ? 'HakgyoansimDunggeunmiso' : 'HakgyoansimDunggeunmiso_Regular',
                     fontSize: 16.0,
-                    fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
                   ),
                   decoration: InputDecoration(
                     hintText: "오늘 어떤 하루를 보내셨나요?",
@@ -232,7 +231,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     border: InputBorder.none,
                     isDense: true,
                     contentPadding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   ),
                 ),
               ),

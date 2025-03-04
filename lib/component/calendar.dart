@@ -56,7 +56,7 @@ class Calendar extends StatelessWidget {
       titleTextStyle: TextStyle(
         fontSize: 20.0,
         fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       leftChevronIcon: Icon(Icons.chevron_left, color: isDarkMode ? Colors.white : Colors.black),
@@ -89,12 +89,12 @@ class Calendar extends StatelessWidget {
     return DaysOfWeekStyle(
       weekdayStyle: TextStyle(
         fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       weekendStyle: TextStyle(
         fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w700,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
     );
@@ -136,7 +136,7 @@ class Calendar extends StatelessWidget {
             '${day.day}',
             style: TextStyle(
               fontSize: 16.0,
-              fontFamily: 'HakgyoansimDunggeunmiso',
+              fontFamily: 'HakgyoansimDunggeunmiso_Regular',
               color: _getDayTextColor(day, isDarkMode, saturdayColor, sundayColor),
             ),
           ),

@@ -81,10 +81,10 @@ flutter:
   fonts:
     - family: HakgyoansimDunggeunmiso
       fonts:
-        - asset: asset/font/Hakgyoansim Dunggeunmiso TTF R.ttf
-          weight: 400
-        - asset: asset/font/Hakgyoansim Dunggeunmiso TTF B.ttf
-          weight: 700
+        - asset: asset/font/Hakgyoansim_Dunggeunmiso_TTF_B.ttf
+    - family: HakgyoansimDunggeunmiso_Regular
+      fonts:
+        - asset: asset/font/Hakgyoansim_Dunggeunmiso_TTF_R.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -113,10 +113,25 @@ class _MainScreenState extends State<MainScreen> {
 
   /// AppBar을 빌드하는 함수
   PreferredSizeWidget _buildAppBar(BuildContext context) {
+    bool isCurrentMonth = currentMonth.year == DateTime.now().year &&
+        currentMonth.month == DateTime.now().month;
+
     return AppBar(
       backgroundColor: getMainColor(context),
       foregroundColor: getIconColor(context),
       actions: [
+        if (!isCurrentMonth)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                currentMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+                selectedDate = DateTime.now();
+              });
+              _loadEmotionsForMonth(currentMonth);
+            },
+            icon: Icon(Icons.refresh, color: getIconColor(context)),
+            tooltip: "오늘 날짜로 이동",
+          ),
         IconButton(
           onPressed: () {
             Navigator.push(
