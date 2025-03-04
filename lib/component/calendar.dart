@@ -118,7 +118,7 @@ class Calendar extends StatelessWidget {
               height: 40,
             ),
           );
-        } else if (isToday) { 
+        } else if (isToday) {
           return Container(
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
