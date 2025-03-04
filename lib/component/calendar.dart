@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../const/color.dart';
+
 /// 캘린더 위젯
 class Calendar extends StatelessWidget {
   final OnDaySelected onDaySelected;
@@ -103,12 +105,25 @@ class Calendar extends StatelessWidget {
     return CalendarBuilders(
       markerBuilder: (context, day, events) {
         final DateTime normalizedDay = DateTime.utc(day.year, day.month, day.day);
-        if (emotions.containsKey(normalizedDay)) {
+        final isToday = day.year == DateTime.now().year &&
+            day.month == DateTime.now().month &&
+            day.day == DateTime.now().day;
+        final hasEmotion = emotions.containsKey(normalizedDay);
+
+        if (hasEmotion) {
           return Center(
             child: Image.asset(
               'asset/img/emotion/${_getEmotionFileName(emotions[normalizedDay]!)}.png',
               width: 40,
               height: 40,
+            ),
+          );
+        } else if (isToday) { 
+          return Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              borderRadius: BorderRadius.circular(8),
+              border: Border.all(color: getIconColor(context), width: 2),
             ),
           );
         }

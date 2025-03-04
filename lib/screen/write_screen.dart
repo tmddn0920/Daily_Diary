@@ -171,6 +171,7 @@ class _WriteScreenState extends State<WriteScreen> {
   Widget _buildScreen(double screenWidth, GlobalKey iconKey) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0,
         backgroundColor: getMainColor(context),
         actions: [
           if (_isEditing)
