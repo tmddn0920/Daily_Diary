@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+/// 캘린더 위젯
 class Calendar extends StatelessWidget {
   final OnDaySelected onDaySelected;
   final DateTime selectedDate;
@@ -42,6 +43,7 @@ class Calendar extends StatelessWidget {
     );
   }
 
+  /// 헤더 스타일 설정
   HeaderStyle _buildHeaderStyle(bool isDarkMode) {
     return HeaderStyle(
       formatButtonVisible: false,
@@ -51,8 +53,8 @@ class Calendar extends StatelessWidget {
       },
       titleTextStyle: TextStyle(
         fontSize: 20.0,
-        fontFamily: 'Fredoka',
-        fontWeight: FontWeight.w900,
+        fontFamily: 'HakgyoansimDunggeunmiso',
+        fontWeight: FontWeight.bold,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       leftChevronIcon: Icon(Icons.chevron_left, color: isDarkMode ? Colors.white : Colors.black),
@@ -60,10 +62,11 @@ class Calendar extends StatelessWidget {
     );
   }
 
+  /// 캘린더 스타일 설정
   CalendarStyle _buildCalendarStyle(bool isDarkMode, Color textColor) {
     return CalendarStyle(
       outsideDaysVisible: false,
-      defaultTextStyle: TextStyle(fontSize: 16.0, fontFamily: 'Fredoka', color: textColor),
+      defaultTextStyle: TextStyle(fontSize: 16.0, fontFamily: 'HakgyoansimDunggeunmiso', color: textColor),
       defaultDecoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(8),
@@ -73,27 +76,29 @@ class Calendar extends StatelessWidget {
       ),
       todayTextStyle: TextStyle(
         fontSize: 16.0,
-        fontFamily: 'Fredoka',
+        fontFamily: 'HakgyoansimDunggeunmiso',
         color: _getTodayTextColor(isDarkMode),
       ),
     );
   }
 
+  /// 요일 스타일 설정
   DaysOfWeekStyle _buildDaysOfWeekStyle(bool isDarkMode) {
     return DaysOfWeekStyle(
       weekdayStyle: TextStyle(
-        fontFamily: 'BMHanNaAir',
+        fontFamily: 'HakgyoansimDunggeunmiso',
         fontWeight: FontWeight.bold,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       weekendStyle: TextStyle(
-        fontFamily: 'BMHanNaAir',
+        fontFamily: 'HakgyoansimDunggeunmiso',
         fontWeight: FontWeight.bold,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
     );
   }
 
+  /// 캘린더 셀(날짜) UI 설정
   CalendarBuilders _buildCalendarBuilders(bool isDarkMode, Color saturdayColor, Color sundayColor) {
     return CalendarBuilders(
       markerBuilder: (context, day, events) {
@@ -109,13 +114,14 @@ class Calendar extends StatelessWidget {
         }
         return null;
       },
+      /// 기본 날짜 스타일 지정
       defaultBuilder: (context, day, focusedDay) {
         return Center(
           child: Text(
             '${day.day}',
             style: TextStyle(
               fontSize: 16.0,
-              fontFamily: 'Fredoka',
+              fontFamily: 'HakgyoansimDunggeunmiso',
               color: _getDayTextColor(day, isDarkMode, saturdayColor, sundayColor),
             ),
           ),
@@ -124,6 +130,7 @@ class Calendar extends StatelessWidget {
     );
   }
 
+  /// 오늘 날짜 텍스트 색상 반환
   Color _getTodayTextColor(bool isDarkMode) {
     final today = DateTime.now();
     if (today.weekday == DateTime.saturday) return Colors.blueAccent;
@@ -131,12 +138,14 @@ class Calendar extends StatelessWidget {
     return isDarkMode ? Colors.white : Colors.black;
   }
 
+  /// 특정 날짜의 색상 반환
   Color _getDayTextColor(DateTime day, bool isDarkMode, Color saturdayColor, Color sundayColor) {
     if (day.weekday == DateTime.saturday) return saturdayColor;
     if (day.weekday == DateTime.sunday) return sundayColor;
     return isDarkMode ? Colors.white : Colors.black;
   }
 
+  /// 이모티콘 이름과 번호를 매치하는 함수
   String _getEmotionFileName(int emotion) {
     switch (emotion) {
       case 0:

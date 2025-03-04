@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import '../component/calendar.dart';
 import 'package:daily_diary/data/local/database.dart';
 
+/// 다이어리 앱의 메인 스크린
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -15,14 +16,14 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  DateTime selectedDate = DateTime.now();
-  DateTime currentMonth =
-  DateTime(DateTime.now().year, DateTime.now().month, 1);
+  DateTime selectedDate = DateTime.now(); // 현재 날짜
+  DateTime currentMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
   Map<DateTime, int> emotions = {};
   Map<int, int> emotionStats = {};
   BannerAd? _bannerAd;
   bool _isAdLoaded = false;
 
+  /// 광고를 로딩하는 함수
   void _loadBannerAd() {
     _bannerAd = BannerAd(
       adUnitId: 'ca-app-pub-3940256099942544/6300978111',
@@ -50,6 +51,7 @@ class _MainScreenState extends State<MainScreen> {
     _loadEmotionsForMonth(currentMonth);
   }
 
+  /// 해당 달의 감정 데이터를 데이터베이스로부터 로딩하는 함수
   Future<void> _loadEmotionsForMonth(DateTime date) async {
     final db = Provider.of<AppDatabase>(context, listen: false);
 
@@ -65,6 +67,7 @@ class _MainScreenState extends State<MainScreen> {
           entry.emotion
       };
 
+      /// 감정 통계 초기화
       emotionStats = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0};
       for (var entry in diaryEntries) {
         emotionStats[entry.emotion] = (emotionStats[entry.emotion] ?? 0) + 1;
@@ -72,6 +75,7 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  /// 날짜가 선택되면, WriteScreen으로 이동
   void onDaySelected(DateTime selectedDate, DateTime focusedDate) {
     Navigator.push(
       context,
@@ -107,6 +111,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// AppBar을 빌드하는 함수
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       backgroundColor: getMainColor(context),
@@ -127,6 +132,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// 캘린더 위젯을 빌드하는 함수
   Widget _buildCalendar() {
     return Expanded(
       child: Padding(
@@ -152,6 +158,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// 날짜별 감정 이모티콘을 캘린더 위에 빌드하는 함수
   Widget _buildEmotionStatus(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
@@ -181,6 +188,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// 감정 이모티콘을 디스플레이 하는 함수
   Widget _buildEmotionItem(
       String imagePath, String label, double screenWidth, BuildContext context) {
     return Column(
@@ -196,7 +204,7 @@ class _MainScreenState extends State<MainScreen> {
           label,
           style: TextStyle(
             fontSize: 12,
-            fontFamily: 'Fredoka',
+            fontFamily: 'HakgyoansimDunggeunmiso',
             color: getTextColor(context),
           ),
         ),
@@ -204,6 +212,7 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+  /// 이모티콘의 파일 이름과 번호를 매치하는 함수
   String _getEmotionFileName(int index) {
     switch (index) {
       case 0:

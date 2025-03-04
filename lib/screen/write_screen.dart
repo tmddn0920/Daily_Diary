@@ -5,6 +5,7 @@ import 'package:daily_diary/const/color.dart';
 import 'package:daily_diary/data/local/database.dart';
 import 'package:provider/provider.dart';
 
+/// 일기를 작성하는 스크린
 class WriteScreen extends StatefulWidget {
   final DateTime selectedDate;
 
@@ -27,6 +28,7 @@ class _WriteScreenState extends State<WriteScreen> {
     _loadExistingDiary();
   }
 
+  /// 만약 일기가 존재한다면, 로딩하는 함수
   Future<void> _loadExistingDiary() async {
     final db = Provider.of<AppDatabase>(context, listen: false);
     final dao = db.diaryDao;
@@ -43,6 +45,7 @@ class _WriteScreenState extends State<WriteScreen> {
     }
   }
 
+  /// 일기를 저장하는 함수 (새로운 일기 생성 or 기존 일기 수정)
   Future<void> _saveDiary() async {
     final db = Provider.of<AppDatabase>(context, listen: false);
     final dao = db.diaryDao;
@@ -76,6 +79,7 @@ class _WriteScreenState extends State<WriteScreen> {
     Navigator.pop(context, true);
   }
 
+  /// 일기를 삭제하는 함수
   Future<void> _deleteDiary() async {
     final db = Provider.of<AppDatabase>(context, listen: false);
     final dao = db.diaryDao;
@@ -88,6 +92,7 @@ class _WriteScreenState extends State<WriteScreen> {
     Navigator.pop(context, true);
   }
 
+  /// 일기를 지우기 전에, 선택지를 출력하는 함수
   Future<void> _confirmDelete() async {
     showDialog(
       context: context,
@@ -97,7 +102,7 @@ class _WriteScreenState extends State<WriteScreen> {
           title: Text(
             "일기를 삭제하시나요?",
             style: TextStyle(
-              fontFamily: 'BMHanNaAir',
+              fontFamily: 'HakgyoansimDunggeunmiso',
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
               color: getTextColor(context),
@@ -110,7 +115,7 @@ class _WriteScreenState extends State<WriteScreen> {
                 "취소",
                 style: TextStyle(
                   color: getIconColor(context),
-                  fontFamily: 'BMHanNaAir',
+                  fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -125,7 +130,7 @@ class _WriteScreenState extends State<WriteScreen> {
                 "삭제",
                 style: TextStyle(
                   color: Colors.redAccent,
-                  fontFamily: 'BMHanNaAir',
+                  fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                 ),
@@ -137,6 +142,7 @@ class _WriteScreenState extends State<WriteScreen> {
     );
   }
 
+  /// 스크린을 만드는 함수
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
@@ -144,23 +150,24 @@ class _WriteScreenState extends State<WriteScreen> {
 
     return Platform.isAndroid
         ? PopScope(
-      canPop: true,
-      onPopInvokedWithResult: (didPop, result) async {
-        if (!didPop) {
-          await _saveDiary();
-        }
-      },
-      child: _buildScreen(screenWidth, _iconKey),
-    )
+            canPop: true,
+            onPopInvokedWithResult: (didPop, result) async {
+              if (!didPop) {
+                await _saveDiary();
+              }
+            },
+            child: _buildScreen(screenWidth, _iconKey),
+          )
         : WillPopScope(
-      onWillPop: () async {
-        await _saveDiary();
-        return true;
-      },
-      child: _buildScreen(screenWidth, _iconKey),
-    );
+            onWillPop: () async {
+              await _saveDiary();
+              return true;
+            },
+            child: _buildScreen(screenWidth, _iconKey),
+          );
   }
 
+  /// 레이아웃을 빌드하는 함수
   Widget _buildScreen(double screenWidth, GlobalKey iconKey) {
     return Scaffold(
       appBar: AppBar(
@@ -194,7 +201,7 @@ class _WriteScreenState extends State<WriteScreen> {
               child: Text(
                 "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
                 style: TextStyle(
-                  fontFamily: 'BMHanNaAir',
+                  fontFamily: 'HakgyoansimDunggeunmiso',
                   fontSize: 16.0,
                   fontWeight: FontWeight.bold,
                   color: getTextColor(context),
@@ -214,7 +221,7 @@ class _WriteScreenState extends State<WriteScreen> {
                   scrollPadding: EdgeInsets.zero,
                   style: TextStyle(
                     color: getTextColor(context),
-                    fontFamily: 'BMHanNaAir',
+                    fontFamily: 'HakgyoansimDunggeunmiso',
                     fontSize: 16.0,
                     fontWeight: _isBold ? FontWeight.bold : FontWeight.normal,
                   ),
@@ -224,7 +231,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     border: InputBorder.none,
                     isDense: true,
                     contentPadding:
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   ),
                 ),
               ),
@@ -233,12 +240,15 @@ class _WriteScreenState extends State<WriteScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 _buildTextAlignButton(Icons.format_align_left, TextAlign.left),
-                _buildTextAlignButton(Icons.format_align_center, TextAlign.center),
-                _buildTextAlignButton(Icons.format_align_right, TextAlign.right),
+                _buildTextAlignButton(
+                    Icons.format_align_center, TextAlign.center),
+                _buildTextAlignButton(
+                    Icons.format_align_right, TextAlign.right),
                 IconButton(
                   icon: Icon(Icons.format_bold),
                   onPressed: () => setState(() => _isBold = !_isBold),
-                  color: _isBold ? getTextColor(context) : getIconColor(context),
+                  color:
+                      _isBold ? getTextColor(context) : getIconColor(context),
                 ),
               ],
             ),
@@ -248,14 +258,17 @@ class _WriteScreenState extends State<WriteScreen> {
     );
   }
 
+  /// 글자 정렬 버튼을 만드는 함수
   Widget _buildTextAlignButton(IconData icon, TextAlign align) {
     return IconButton(
       icon: Icon(icon),
       onPressed: () => setState(() => _textAlign = align),
-      color: _textAlign == align ? getTextColor(context) : getIconColor(context),
+      color:
+          _textAlign == align ? getTextColor(context) : getIconColor(context),
     );
   }
 
+  /// 이모티콘 파일 이름과 번호를 연결하는 함수
   String _getEmotionFileName(int index) {
     switch (index) {
       case 0:
@@ -273,6 +286,7 @@ class _WriteScreenState extends State<WriteScreen> {
     }
   }
 
+  /// 이모티콘 선택 창을 출력하는 함수
   void _showEmotionPicker(BuildContext context, GlobalKey iconKey) {
     final RenderBox renderBox =
         iconKey.currentContext!.findRenderObject() as RenderBox;
