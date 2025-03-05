@@ -3,21 +3,25 @@
 > **오늘의 기분과 함께 하루를 기록하는 간단한 다이어리 앱입니다.**  
 > Flutter 초보 개발자들도 참고할 수 있도록 코드를 공개합니다.
 
-![Main(Light).png](process_images/Main%28Light%29.png)
-
 ---
 
 ## 📌 프로젝트 소개
 **Daily Diary**는 다음과 같은 기능을 제공합니다:  
 ✅ **일기 작성**: 하루의 기록을 감성적인 UI로 남길 수 있음
-
 ✅ **기분 선택**: 기분(이모티콘)과 함께 일기 작성 가능
-![Write.png](process_images/Write.png)
 ✅ **다크 모드 지원**: 사용자 환경에 맞춰 테마 변경 가능
-![Main(Dark).png](process_images/Main%28Dark%29.png)
 ✅ **로컬 데이터 저장**: SQLite 기반의 로컬 데이터베이스 활용
-
 ✅ **광고 배너 포함**: Google Mobile Ads SDK 적용
+
+---
+
+## 📌 스크린샷 (Screenshot)
+
+🌞 **라이트 모드**
+![Screenshot_Light.png](process_images/Screenshot_Light.png)
+
+🌙 **다크 모드**
+![Screenshot_Dark.png](process_images/Screenshot_Dark.png)
 
 ---
 
@@ -50,4 +54,4 @@
 
 2025.3.4 - 폰트 수정, 오늘 날짜 테두리 표시 적용, 현재 날짜가 속한 달로 이동할 수 있는 버튼 추가, 마이너 버그 픽스 
 
-2025.3.5 - 앱 아이콘 추가, TestFlight에 Build 업로드
+2025.3.5 - 앱 아이콘 추가, 기본 뒤로가기 드래그를 통해서 데이터 저장 가능, TestFlight에 Build 업로드
