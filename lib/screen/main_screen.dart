@@ -80,7 +80,16 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WriteScreen(selectedDate: selectedDate),
+        builder: (context) => WriteScreen(selectedDate: selectedDate,
+          onSaveComplete: () {
+            _loadEmotionsForMonth(currentMonth);
+            setState(() {});
+          },
+          onDeleteComplete: () {
+            _loadEmotionsForMonth(currentMonth);
+            setState(() {});
+          },
+        ),
       ),
     ).then((result) {
       if (result == true) {

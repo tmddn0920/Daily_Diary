@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:drift/drift.dart' as drift;
 import 'package:flutter/material.dart';
 import 'package:daily_diary/const/color.dart';
@@ -8,8 +7,15 @@ import 'package:provider/provider.dart';
 /// 일기를 작성하는 스크린
 class WriteScreen extends StatefulWidget {
   final DateTime selectedDate;
+  final VoidCallback? onSaveComplete;
+  final VoidCallback? onDeleteComplete;
 
-  const WriteScreen({required this.selectedDate, super.key});
+  const WriteScreen({
+    required this.selectedDate,
+    this.onSaveComplete,
+    this.onDeleteComplete,
+    super.key,
+  });
 
   @override
   State<WriteScreen> createState() => _WriteScreenState();
@@ -21,6 +27,7 @@ class _WriteScreenState extends State<WriteScreen> {
   bool _isBold = false;
   int selectedEmotion = 0;
   bool _isEditing = false;
+  bool _isDeleted = false;
 
   @override
   void initState() {
@@ -49,11 +56,8 @@ class _WriteScreenState extends State<WriteScreen> {
   Future<void> _saveDiary() async {
     final db = Provider.of<AppDatabase>(context, listen: false);
     final dao = db.diaryDao;
-
     final existingDiary = await dao.getDiaryByDate(widget.selectedDate);
-
     if (_controller.text.isEmpty) {
-      Navigator.pop(context, false);
       return;
     }
 
@@ -75,8 +79,7 @@ class _WriteScreenState extends State<WriteScreen> {
         isBold: _isBold,
       ));
     }
-
-    Navigator.pop(context, true);
+    widget.onSaveComplete?.call();
   }
 
   /// 일기를 삭제하는 함수
@@ -88,8 +91,13 @@ class _WriteScreenState extends State<WriteScreen> {
     if (existingDiary != null) {
       await dao.deleteDiary(existingDiary.id);
     }
-
-    Navigator.pop(context, true);
+    setState(() {
+      _isDeleted = true;
+    });
+    widget.onDeleteComplete?.call();
+    if (mounted) {
+      Navigator.pop(context, true);
+    }
   }
 
   /// 일기를 지우기 전에, 선택지를 출력하는 함수
@@ -148,23 +156,14 @@ class _WriteScreenState extends State<WriteScreen> {
     final screenWidth = MediaQuery.of(context).size.width;
     final GlobalKey _iconKey = GlobalKey();
 
-    return Platform.isAndroid
-        ? PopScope(
-            canPop: true,
-            onPopInvokedWithResult: (didPop, result) async {
-              if (!didPop) {
-                await _saveDiary();
-              }
-            },
-            child: _buildScreen(screenWidth, _iconKey),
-          )
-        : WillPopScope(
-            onWillPop: () async {
-              await _saveDiary();
-              return true;
-            },
-            child: _buildScreen(screenWidth, _iconKey),
-          );
+    return PopScope(
+      canPop: true,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (_isDeleted) return;
+        await _saveDiary();
+      },
+      child: _buildScreen(screenWidth, _iconKey),
+    );
   }
 
   /// 레이아웃을 빌드하는 함수
@@ -222,7 +221,9 @@ class _WriteScreenState extends State<WriteScreen> {
                   scrollPadding: EdgeInsets.zero,
                   style: TextStyle(
                     color: getTextColor(context),
-                    fontFamily: _isBold ? 'HakgyoansimDunggeunmiso' : 'HakgyoansimDunggeunmiso_Regular',
+                    fontFamily: _isBold
+                        ? 'HakgyoansimDunggeunmiso'
+                        : 'HakgyoansimDunggeunmiso_Regular',
                     fontSize: 16.0,
                   ),
                   decoration: InputDecoration(
@@ -231,7 +232,7 @@ class _WriteScreenState extends State<WriteScreen> {
                     border: InputBorder.none,
                     isDense: true,
                     contentPadding:
-                    EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                   ),
                 ),
               ),
