@@ -63,6 +63,7 @@ dev_dependencies:
   drift_dev: ^2.25.2
   build_runner: ^2.4.15
   flutter_native_splash: ^2.3.9
+  flutter_launcher_icons: ^0.13.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -123,3 +124,9 @@ flutter_native_splash:
   color: "#FFFFF0"
   color_dark: "#2C3539"
   image: asset/img/splash_icon.png
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "asset/app_icon.png"
+  remove_alpha_ios: true
