@@ -17,7 +17,8 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   DateTime selectedDate = DateTime.now(); // 현재 날짜
-  DateTime currentMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+  DateTime currentMonth =
+      DateTime(DateTime.now().year, DateTime.now().month, 1);
   Map<DateTime, int> emotions = {};
   Map<int, int> emotionStats = {};
   BannerAd? _bannerAd;
@@ -64,7 +65,7 @@ class _MainScreenState extends State<MainScreen> {
       emotions = {
         for (var entry in diaryEntries)
           DateTime.utc(entry.date.year, entry.date.month, entry.date.day):
-          entry.emotion
+              entry.emotion
       };
 
       /// 감정 통계 초기화
@@ -80,7 +81,8 @@ class _MainScreenState extends State<MainScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => WriteScreen(selectedDate: selectedDate,
+        builder: (context) => WriteScreen(
+          selectedDate: selectedDate,
           onSaveComplete: () {
             _loadEmotionsForMonth(currentMonth);
             setState(() {});
@@ -98,26 +100,58 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  /// Calendar 및 광고 배너 Build 함수
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: getMainColor(context),
       appBar: _buildAppBar(context),
-      body: SafeArea(
-        child: Column(
-          children: [
-            _buildCalendar(),
-            _buildEmotionStatus(context),
-            if (_isAdLoaded)
-              Container(
-                height: _bannerAd!.size.height.toDouble(),
-                width: _bannerAd!.size.width.toDouble(),
-                child: AdWidget(ad: _bannerAd!),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              children: [
+                _buildCalendar(),
+                _buildEmotionStatus(context),
+                if (_isAdLoaded)
+                  Container(
+                    height: _bannerAd!.size.height.toDouble(),
+                    width: _bannerAd!.size.width.toDouble(),
+                    child: AdWidget(ad: _bannerAd!),
+                  ),
+              ],
+            ),
+          ),
+          Positioned.fill(
+            child: IgnorePointer(
+              ignoring: false,
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onHorizontalDragEnd: (details) {
+                  double velocity = details.primaryVelocity ?? 0;
+                  if (velocity.abs() < 50) return;
+                  final int nextMonth = velocity < 0 ? 1 : -1;
+                  final DateTime newMonth = DateTime(
+                      currentMonth.year, currentMonth.month + nextMonth, 1);
+                  if (newMonth == currentMonth) return;
+                  _changeMonth(nextMonth);
+                },
               ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
+  }
+
+  /// 달력 밖에서 스와이프 시, 달을 변경하는 함수
+  void _changeMonth(int offset) {
+    setState(() {
+      currentMonth =
+          DateTime(currentMonth.year, currentMonth.month + offset, 1);
+      selectedDate = currentMonth;
+    });
+    _loadEmotionsForMonth(currentMonth);
   }
 
   /// AppBar을 빌드하는 함수
@@ -133,7 +167,8 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             onPressed: () {
               setState(() {
-                currentMonth = DateTime(DateTime.now().year, DateTime.now().month, 1);
+                currentMonth =
+                    DateTime(DateTime.now().year, DateTime.now().month, 1);
                 selectedDate = DateTime.now();
               });
               _loadEmotionsForMonth(currentMonth);
@@ -169,7 +204,7 @@ class _MainScreenState extends State<MainScreen> {
             final newMonth = DateTime(focusedDay.year, focusedDay.month, 1);
             if (newMonth != currentMonth) {
               setState(
-                    () {
+                () {
                   currentMonth = newMonth;
                   selectedDate = focusedDay;
                 },
@@ -199,7 +234,7 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(
             5,
-                (index) {
+            (index) {
               return _buildEmotionItem(
                   'asset/img/emotion/${_getEmotionFileName(index)}.png',
                   '${emotionStats[index] ?? 0}',
@@ -213,8 +248,8 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   /// 감정 이모티콘을 디스플레이 하는 함수
-  Widget _buildEmotionItem(
-      String imagePath, String label, double screenWidth, BuildContext context) {
+  Widget _buildEmotionItem(String imagePath, String label, double screenWidth,
+      BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -254,4 +289,3 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 }
-
