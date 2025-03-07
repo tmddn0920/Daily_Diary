@@ -168,92 +168,103 @@ class _WriteScreenState extends State<WriteScreen> {
 
   /// 레이아웃을 빌드하는 함수
   Widget _buildScreen(double screenWidth, GlobalKey iconKey) {
-    return Scaffold(
-      appBar: AppBar(
-        scrolledUnderElevation: 0,
-        backgroundColor: getMainColor(context),
-        actions: [
-          if (_isEditing)
-            IconButton(
-              icon: Icon(Icons.delete, color: getIconColor(context)),
-              onPressed: _confirmDelete,
-            ),
-        ],
-      ),
-      backgroundColor: getMainColor(context),
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 12.0),
-              child: GestureDetector(
-                key: iconKey,
-                onTap: () => _showEmotionPicker(context, iconKey),
-                child: Image.asset(
-                  'asset/img/emotion/${_getEmotionFileName(selectedEmotion)}.png',
-                  width: screenWidth * 0.16,
-                  height: screenWidth * 0.16,
-                ),
+    return GestureDetector(
+      onHorizontalDragEnd: (details) async {
+        if (details.primaryVelocity! > 0 && Navigator.canPop(context)) {
+          await _saveDiary();
+          if (mounted && Navigator.canPop(context)) {
+            Navigator.pop(context, true);
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          scrolledUnderElevation: 0,
+          backgroundColor: getMainColor(context),
+          actions: [
+            if (_isEditing)
+              IconButton(
+                icon: Icon(Icons.delete, color: getIconColor(context)),
+                onPressed: _confirmDelete,
               ),
-            ),
-            Center(
-              child: Text(
-                "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
-                style: TextStyle(
-                  fontFamily: 'HakgyoansimDunggeunmiso',
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
-                  color: getTextColor(context),
-                ),
-              ),
-            ),
-            SizedBox(height: 16.0),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: TextField(
-                  controller: _controller,
-                  textAlign: _textAlign,
-                  maxLines: null,
-                  keyboardType: TextInputType.multiline,
-                  textAlignVertical: TextAlignVertical.top,
-                  scrollPadding: EdgeInsets.zero,
-                  style: TextStyle(
-                    color: getTextColor(context),
-                    fontFamily: _isBold
-                        ? 'HakgyoansimDunggeunmiso'
-                        : 'HakgyoansimDunggeunmiso_Regular',
-                    fontSize: 16.0,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: "오늘 어떤 하루를 보내셨나요?",
-                    hintStyle: TextStyle(color: getIconColor(context)),
-                    border: InputBorder.none,
-                    isDense: true,
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                  ),
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                _buildTextAlignButton(Icons.format_align_left, TextAlign.left),
-                _buildTextAlignButton(
-                    Icons.format_align_center, TextAlign.center),
-                _buildTextAlignButton(
-                    Icons.format_align_right, TextAlign.right),
-                IconButton(
-                  icon: Icon(Icons.format_bold),
-                  onPressed: () => setState(() => _isBold = !_isBold),
-                  color:
-                      _isBold ? getTextColor(context) : getIconColor(context),
-                ),
-              ],
-            ),
           ],
+        ),
+        backgroundColor: getMainColor(context),
+        body: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12.0),
+                child: GestureDetector(
+                  key: iconKey,
+                  onTap: () => _showEmotionPicker(context, iconKey),
+                  child: Image.asset(
+                    'asset/img/emotion/${_getEmotionFileName(selectedEmotion)}.png',
+                    width: screenWidth * 0.16,
+                    height: screenWidth * 0.16,
+                  ),
+                ),
+              ),
+              Center(
+                child: Text(
+                  "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
+                  style: TextStyle(
+                    fontFamily: 'HakgyoansimDunggeunmiso',
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                    color: getTextColor(context),
+                  ),
+                ),
+              ),
+              SizedBox(height: 16.0),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: TextField(
+                    controller: _controller,
+                    textAlign: _textAlign,
+                    maxLines: null,
+                    keyboardType: TextInputType.multiline,
+                    textAlignVertical: TextAlignVertical.top,
+                    scrollPadding: EdgeInsets.zero,
+                    style: TextStyle(
+                      color: getTextColor(context),
+                      fontFamily: _isBold
+                          ? 'HakgyoansimDunggeunmiso'
+                          : 'HakgyoansimDunggeunmiso_Regular',
+                      fontSize: 16.0,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "오늘 어떤 하루를 보내셨나요?",
+                      hintStyle: TextStyle(color: getIconColor(context)),
+                      border: InputBorder.none,
+                      isDense: true,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+                    ),
+                  ),
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  _buildTextAlignButton(
+                      Icons.format_align_left, TextAlign.left),
+                  _buildTextAlignButton(
+                      Icons.format_align_center, TextAlign.center),
+                  _buildTextAlignButton(
+                      Icons.format_align_right, TextAlign.right),
+                  IconButton(
+                    icon: Icon(Icons.format_bold),
+                    onPressed: () => setState(() => _isBold = !_isBold),
+                    color:
+                        _isBold ? getTextColor(context) : getIconColor(context),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -316,21 +327,24 @@ class _WriteScreenState extends State<WriteScreen> {
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: List.generate(5, (index) {
-                      return GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            selectedEmotion = index;
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Image.asset(
-                          'asset/img/emotion/${_getEmotionFileName(index)}.png',
-                          width: 50,
-                          height: 50,
-                        ),
-                      );
-                    }),
+                    children: List.generate(
+                      5,
+                      (index) {
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedEmotion = index;
+                            });
+                            Navigator.pop(context);
+                          },
+                          child: Image.asset(
+                            'asset/img/emotion/${_getEmotionFileName(index)}.png',
+                            width: 50,
+                            height: 50,
+                          ),
+                        );
+                      },
+                    ),
                   ),
                 ),
               ),
