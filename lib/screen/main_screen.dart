@@ -27,7 +27,7 @@ class _MainScreenState extends State<MainScreen> {
   /// 광고를 로딩하는 함수
   void _loadBannerAd() {
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111',
+      adUnitId: 'ca-app-pub-5620036160638188/4102747173',
       size: AdSize.banner,
       request: AdRequest(),
       listener: BannerAdListener(
