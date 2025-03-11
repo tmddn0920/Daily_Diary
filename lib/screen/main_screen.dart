@@ -179,12 +179,15 @@ class _MainScreenState extends State<MainScreen> {
           ),
         IconButton(
           onPressed: () {
+            final db = Provider.of<AppDatabase>(context, listen: false);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => SettingsScreen(),
+                builder: (context) => SettingsScreen(db: db),
               ),
-            );
+            ).then((_) {
+              _loadEmotionsForMonth(currentMonth);
+            });
           },
           icon: Icon(Icons.settings, color: getIconColor(context)),
         ),

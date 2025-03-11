@@ -69,5 +69,19 @@
     <array>
         <string>UIInterfaceOrientationPortrait</string>
     </array>
+    <key>NSUbiquitousContainers</key>
+    <dict>
+        <key>iCloud.com.seungrain.dailyDiary</key>
+        <dict>
+            <key>NSUbiquitousContainerIsDocumentScopePublic</key>
+            <true/>
+            <key>NSUbiquitousContainerSupportedFolderLevels</key>
+            <string>Any</string>
+        </dict>
+    </dict>
+    <key>NSUbiquitousKeyValueStoreUsageDescription</key>
+    <string>이 앱은 iCloud Drive를 이용하여 데이터를 백업 및 복원합니다.</string>
+    <key>NSFileProviderDomainUsageDescription</key>
+    <string>이 앱은 iCloud Drive에서 파일을 저장하고 불러오기 위해 필요합니다.</string>
 </dict>
 </plist>

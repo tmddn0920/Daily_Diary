@@ -6,7 +6,7 @@ import 'package:daily_diary/data/local/database.dart';
 import 'package:daily_diary/screen/main_screen.dart';
 import 'package:daily_diary/provider/theme_provider.dart';
 
-void main() {
+Future<void> main() async {
   /// 엔진 및 위젯 트리 초기화
   WidgetsFlutterBinding.ensureInitialized();
   /// Google Ads 초기화

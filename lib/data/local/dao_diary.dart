@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'database.dart';
 import 'diary_table.dart';
-
 part 'dao_diary.g.dart';
 
 @DriftAccessor(tables: [Diaries])

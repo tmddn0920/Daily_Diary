@@ -14,6 +14,14 @@ class AppDatabase extends _$AppDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  Future<void> closeDatabase() async {
+    await close();
+  }
+
+  Future<void> openDatabase() async {
+    await executor.ensureOpen(this);
+  }
 }
 
 LazyDatabase _openConnection() {
