@@ -110,9 +110,8 @@ class _WriteScreenState extends State<WriteScreen> {
           title: Text(
             "일기를 삭제하시나요?",
             style: TextStyle(
-              fontFamily: 'HakgyoansimDunggeunmiso',
-              fontSize: 18.0,
-              fontWeight: FontWeight.w700,
+              fontFamily: 'HakgyoansimDunggeunmiso_Regular',
+              fontSize: 16.0,
               color: getTextColor(context),
             ),
           ),
@@ -123,9 +122,8 @@ class _WriteScreenState extends State<WriteScreen> {
                 "취소",
                 style: TextStyle(
                   color: getIconColor(context),
-                  fontFamily: 'HakgyoansimDunggeunmiso',
+                  fontFamily: 'HakgyoansimDunggeunmiso_Regular',
                   fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -138,9 +136,8 @@ class _WriteScreenState extends State<WriteScreen> {
                 "삭제",
                 style: TextStyle(
                   color: Colors.redAccent,
-                  fontFamily: 'HakgyoansimDunggeunmiso',
+                  fontFamily: 'HakgyoansimDunggeunmiso_Regular',
                   fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
@@ -210,9 +207,8 @@ class _WriteScreenState extends State<WriteScreen> {
                 child: Text(
                   "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
                   style: TextStyle(
-                    fontFamily: 'HakgyoansimDunggeunmiso',
+                    fontFamily: 'HakgyoansimDunggeunmiso_Regular',
                     fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
                     color: getTextColor(context),
                   ),
                 ),
@@ -233,7 +229,7 @@ class _WriteScreenState extends State<WriteScreen> {
                       fontFamily: _isBold
                           ? 'HakgyoansimDunggeunmiso'
                           : 'HakgyoansimDunggeunmiso_Regular',
-                      fontSize: 16.0,
+                      fontSize: 14.0,
                     ),
                     decoration: InputDecoration(
                       hintText: "오늘 어떤 하루를 보내셨나요?",

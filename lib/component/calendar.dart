@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../const/color.dart';
 
 /// 캘린더 위젯
@@ -88,13 +87,11 @@ class Calendar extends StatelessWidget {
   DaysOfWeekStyle _buildDaysOfWeekStyle(bool isDarkMode) {
     return DaysOfWeekStyle(
       weekdayStyle: TextStyle(
-        fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.w700,
+        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       weekendStyle: TextStyle(
-        fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.w700,
+        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         color: isDarkMode ? Colors.white : Colors.black,
       ),
     );
