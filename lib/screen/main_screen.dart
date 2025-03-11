@@ -6,6 +6,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import '../component/calendar.dart';
 import 'package:daily_diary/data/local/database.dart';
+import '../util/emoticon_utils.dart';
 
 /// 다이어리 앱의 메인 스크린
 class MainScreen extends StatefulWidget {
@@ -236,7 +237,7 @@ class _MainScreenState extends State<MainScreen> {
             5,
             (index) {
               return _buildEmotionItem(
-                  'asset/img/emotion/${_getEmotionFileName(index)}.png',
+                  'asset/img/emotion/${getEmotionFileName(index)}.png',
                   '${emotionStats[index] ?? 0}',
                   screenWidth,
                   context);
@@ -263,29 +264,10 @@ class _MainScreenState extends State<MainScreen> {
           label,
           style: TextStyle(
             fontSize: 12,
-            fontFamily: 'HakgyoansimDunggeunmiso',
             color: getTextColor(context),
           ),
         ),
       ],
     );
-  }
-
-  /// 이모티콘의 파일 이름과 번호를 매치하는 함수
-  String _getEmotionFileName(int index) {
-    switch (index) {
-      case 0:
-        return "happy";
-      case 1:
-        return "normal";
-      case 2:
-        return "worry";
-      case 3:
-        return "sad";
-      case 4:
-        return "mad";
-      default:
-        return "happy";
-    }
   }
 }

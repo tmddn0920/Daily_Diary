@@ -31,12 +31,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: 'HakgyoansimDunggeunmiso',
+        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         brightness: Brightness.light,
       ),
 
       darkTheme: ThemeData(
-        fontFamily: 'HakgyoansimDunggeunmiso',
+        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         brightness: Brightness.dark,
       ),
       themeMode: themeProvider.isDarkMode ? ThemeMode.dark : ThemeMode.light,

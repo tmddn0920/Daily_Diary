@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:daily_diary/const/color.dart';
 import 'package:daily_diary/data/local/database.dart';
 import 'package:provider/provider.dart';
+import '../util/emoticon_utils.dart';
 
 /// 일기를 작성하는 스크린
 class WriteScreen extends StatefulWidget {
@@ -110,7 +111,6 @@ class _WriteScreenState extends State<WriteScreen> {
           title: Text(
             "일기를 삭제하시나요?",
             style: TextStyle(
-              fontFamily: 'HakgyoansimDunggeunmiso_Regular',
               fontSize: 16.0,
               color: getTextColor(context),
             ),
@@ -122,7 +122,6 @@ class _WriteScreenState extends State<WriteScreen> {
                 "취소",
                 style: TextStyle(
                   color: getIconColor(context),
-                  fontFamily: 'HakgyoansimDunggeunmiso_Regular',
                   fontSize: 16.0,
                 ),
               ),
@@ -136,7 +135,6 @@ class _WriteScreenState extends State<WriteScreen> {
                 "삭제",
                 style: TextStyle(
                   color: Colors.redAccent,
-                  fontFamily: 'HakgyoansimDunggeunmiso_Regular',
                   fontSize: 16.0,
                 ),
               ),
@@ -189,75 +187,91 @@ class _WriteScreenState extends State<WriteScreen> {
         backgroundColor: getMainColor(context),
         body: SafeArea(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 12.0),
-                child: GestureDetector(
-                  key: iconKey,
-                  onTap: () => _showEmotionPicker(context, iconKey),
-                  child: Image.asset(
-                    'asset/img/emotion/${_getEmotionFileName(selectedEmotion)}.png',
-                    width: screenWidth * 0.16,
-                    height: screenWidth * 0.16,
-                  ),
-                ),
-              ),
-              Center(
-                child: Text(
-                  "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
-                  style: TextStyle(
-                    fontFamily: 'HakgyoansimDunggeunmiso_Regular',
-                    fontSize: 16.0,
-                    color: getTextColor(context),
-                  ),
-                ),
-              ),
-              SizedBox(height: 16.0),
+              /// 상단 컨텐츠 (스크롤 가능)
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: TextField(
-                    controller: _controller,
-                    textAlign: _textAlign,
-                    maxLines: null,
-                    keyboardType: TextInputType.multiline,
-                    textAlignVertical: TextAlignVertical.top,
-                    scrollPadding: EdgeInsets.zero,
-                    style: TextStyle(
-                      color: getTextColor(context),
-                      fontFamily: _isBold
-                          ? 'HakgyoansimDunggeunmiso'
-                          : 'HakgyoansimDunggeunmiso_Regular',
-                      fontSize: 14.0,
-                    ),
-                    decoration: InputDecoration(
-                      hintText: "오늘 어떤 하루를 보내셨나요?",
-                      hintStyle: TextStyle(color: getIconColor(context)),
-                      border: InputBorder.none,
-                      isDense: true,
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                    ),
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /// 감정 선택
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 12.0),
+                        child: GestureDetector(
+                          key: iconKey,
+                          onTap: () => _showEmotionPicker(context, iconKey),
+                          child: Image.asset(
+                            'asset/img/emotion/${getEmotionFileName(selectedEmotion)}.png',
+                            width: screenWidth * 0.16,
+                            height: screenWidth * 0.16,
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Text(
+                          "${widget.selectedDate.month}월 ${widget.selectedDate.day}일",
+                          style: TextStyle(
+                            fontSize: 16.0,
+                            fontFamily: 'HakgyoansimDunggeunmiso',
+                            color: getTextColor(context),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: TextField(
+                          controller: _controller,
+                          textAlign: _textAlign,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                          textAlignVertical: TextAlignVertical.top,
+                          scrollPadding: EdgeInsets.zero,
+                          style: TextStyle(
+                            color: getTextColor(context),
+                            fontFamily: _isBold
+                                ? 'HakgyoansimDunggeunmiso'
+                                : 'HakgyoansimDunggeunmiso_Regular',
+                            fontSize: 15.0,
+                          ),
+                          decoration: InputDecoration(
+                            hintText: "오늘 어떤 하루를 보내셨나요?",
+                            hintStyle: TextStyle(color: getIconColor(context)),
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(
+                                vertical: 8.0, horizontal: 12.0),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  _buildTextAlignButton(
-                      Icons.format_align_left, TextAlign.left),
-                  _buildTextAlignButton(
-                      Icons.format_align_center, TextAlign.center),
-                  _buildTextAlignButton(
-                      Icons.format_align_right, TextAlign.right),
-                  IconButton(
-                    icon: Icon(Icons.format_bold),
-                    onPressed: () => setState(() => _isBold = !_isBold),
-                    color:
-                        _isBold ? getTextColor(context) : getIconColor(context),
-                  ),
-                ],
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 8.0),
+                decoration: BoxDecoration(
+                  color: getMainColor(context),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start, // 왼쪽 정렬 유지
+                  children: [
+                    _buildTextAlignButton(
+                        Icons.format_align_left, TextAlign.left),
+                    _buildTextAlignButton(
+                        Icons.format_align_center, TextAlign.center),
+                    _buildTextAlignButton(
+                        Icons.format_align_right, TextAlign.right),
+                    IconButton(
+                      icon: Icon(Icons.format_bold),
+                      onPressed: () => setState(() => _isBold = !_isBold),
+                      color: _isBold
+                          ? getTextColor(context)
+                          : getIconColor(context),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
@@ -274,24 +288,6 @@ class _WriteScreenState extends State<WriteScreen> {
       color:
           _textAlign == align ? getTextColor(context) : getIconColor(context),
     );
-  }
-
-  /// 이모티콘 파일 이름과 번호를 연결하는 함수
-  String _getEmotionFileName(int index) {
-    switch (index) {
-      case 0:
-        return "happy";
-      case 1:
-        return "normal";
-      case 2:
-        return "worry";
-      case 3:
-        return "sad";
-      case 4:
-        return "mad";
-      default:
-        return "happy";
-    }
   }
 
   /// 이모티콘 선택 창을 출력하는 함수
@@ -334,7 +330,7 @@ class _WriteScreenState extends State<WriteScreen> {
                             Navigator.pop(context);
                           },
                           child: Image.asset(
-                            'asset/img/emotion/${_getEmotionFileName(index)}.png',
+                            'asset/img/emotion/${getEmotionFileName(index)}.png',
                             width: 50,
                             height: 50,
                           ),

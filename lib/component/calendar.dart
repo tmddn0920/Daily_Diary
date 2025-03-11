@@ -55,7 +55,6 @@ class Calendar extends StatelessWidget {
       titleTextStyle: TextStyle(
         fontSize: 20.0,
         fontFamily: 'HakgyoansimDunggeunmiso',
-        fontWeight: FontWeight.w700,
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       leftChevronIcon: Icon(Icons.chevron_left, color: isDarkMode ? Colors.white : Colors.black),
@@ -67,7 +66,7 @@ class Calendar extends StatelessWidget {
   CalendarStyle _buildCalendarStyle(bool isDarkMode, Color textColor) {
     return CalendarStyle(
       outsideDaysVisible: false,
-      defaultTextStyle: TextStyle(fontSize: 16.0, fontFamily: 'HakgyoansimDunggeunmiso', color: textColor),
+      defaultTextStyle: TextStyle(fontSize: 16.0, color: textColor),
       defaultDecoration: BoxDecoration(
         shape: BoxShape.rectangle,
         borderRadius: BorderRadius.circular(8),
@@ -76,7 +75,6 @@ class Calendar extends StatelessWidget {
         color: Colors.transparent,
       ),
       todayTextStyle: TextStyle(
-        fontSize: 16.0,
         fontFamily: 'HakgyoansimDunggeunmiso',
         color: _getTodayTextColor(isDarkMode),
       ),
@@ -87,11 +85,9 @@ class Calendar extends StatelessWidget {
   DaysOfWeekStyle _buildDaysOfWeekStyle(bool isDarkMode) {
     return DaysOfWeekStyle(
       weekdayStyle: TextStyle(
-        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         color: isDarkMode ? Colors.white : Colors.black,
       ),
       weekendStyle: TextStyle(
-        fontFamily: 'HakgyoansimDunggeunmiso_Regular',
         color: isDarkMode ? Colors.white : Colors.black,
       ),
     );
@@ -132,8 +128,6 @@ class Calendar extends StatelessWidget {
           child: Text(
             '${day.day}',
             style: TextStyle(
-              fontSize: 16.0,
-              fontFamily: 'HakgyoansimDunggeunmiso_Regular',
               color: _getDayTextColor(day, isDarkMode, saturdayColor, sundayColor),
             ),
           ),

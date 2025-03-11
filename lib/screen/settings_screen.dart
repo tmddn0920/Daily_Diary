@@ -14,7 +14,10 @@ class SettingsScreen extends StatelessWidget {
         backgroundColor: getMainColor(context),
         title: Text(
           "설정",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+          style: TextStyle(
+            fontSize: 18,
+            fontFamily: 'HakgyoansimDunggeunmiso'
+          ),
         ),
       ),
       body: Column(
