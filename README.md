@@ -29,11 +29,9 @@
 
 ## 📌 스크린샷 (Screenshot)
 
-🌞 **라이트 모드**
-![Screenshot_Light.png](process_images/Screenshot_Light.png)
+![iPhone_1.png](process_images/iPhone_1.png)![iPhone_2.png](process_images/iPhone_2.png)![iPhone_3.png](process_images/iPhone_3.png)
 
-🌙 **다크 모드**
-![Screenshot_Dark.png](process_images/Screenshot_Dark.png)
+![iPhone_4.png](process_images/iPhone_4.png)![iPhone_5.png](process_images/iPhone_5.png)![iPhone_6.png](process_images/iPhone_6.png)
 
 ---
 
@@ -68,6 +66,7 @@
 - **2025.3.10** - 애플 스토어 정식 출시
 - **2025.3.11** - iCloud 백업 및 복원 기능 추가, 폰트 사이즈 조절 및 일기 작성시 화면 전체 스크롤 지원
 - **2025.3.12** - 오늘 날짜의 일기 작성 버튼 추가
+- **2025.3.13** - 앱 아이콘 업데이트, 1.0.1 심사 등록
 
 ---
 
