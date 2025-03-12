@@ -113,6 +113,7 @@ class _MainScreenState extends State<MainScreen> {
             child: Column(
               children: [
                 _buildCalendar(),
+                _buildTodayDiaryButton(context),
                 _buildEmotionStatus(context),
                 if (_isAdLoaded)
                   Container(
@@ -271,6 +272,34 @@ class _MainScreenState extends State<MainScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildTodayDiaryButton(BuildContext context) {
+    return Container(
+      alignment: Alignment.bottomRight,
+      padding: EdgeInsets.only(right: 16.0),
+      child: FloatingActionButton(
+        backgroundColor: Theme.of(context).brightness == Brightness.dark
+            ? Color(0xFFFFFFF0)
+            : Color(0xFF2C3539),
+        foregroundColor: getMainColor(context),
+        shape: StadiumBorder(),
+        elevation: 0,
+        child: Icon(
+          Icons.edit,
+        ),
+        onPressed: () async {
+          final now = DateTime.now();
+          final todayUtc = DateTime.utc(now.year, now.month, now.day);
+          if (selectedDate.month != now.month || selectedDate.year != now.year) {
+            setState(() {
+              selectedDate = now;
+            });
+          }
+          onDaySelected(todayUtc, todayUtc);
+        },
+      ),
     );
   }
 }
