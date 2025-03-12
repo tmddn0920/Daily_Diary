@@ -5,7 +5,7 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<string>ko</string>
 	<key>CFBundleDisplayName</key>
 	<string>매일일기</string>
 	<key>CFBundleExecutable</key>
@@ -14,6 +14,10 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>ko</string>
+	</array>
 	<key>CFBundleName</key>
 	<string>daily_diary</string>
 	<key>CFBundlePackageType</key>
@@ -28,6 +32,20 @@
 	<string>ca-app-pub-5620036160638188~2970726386</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSFileProviderDomainUsageDescription</key>
+	<string>이 앱은 iCloud Drive에서 파일을 저장하고 불러오기 위해 필요합니다.</string>
+	<key>NSUbiquitousContainers</key>
+	<dict>
+		<key>iCloud.com.seungrain.dailyDiary</key>
+		<dict>
+			<key>NSUbiquitousContainerIsDocumentScopePublic</key>
+			<true/>
+			<key>NSUbiquitousContainerSupportedFolderLevels</key>
+			<string>Any</string>
+		</dict>
+	</dict>
+	<key>NSUbiquitousKeyValueStoreUsageDescription</key>
+	<string>이 앱은 iCloud Drive를 이용하여 데이터를 백업 및 복원합니다.</string>
 	<key>SKAdNetworkItems</key>
 	<array>
 		<dict>
@@ -38,6 +56,11 @@
 			<key>SKAdNetworkIdentifier</key>
 			<string>4fzdc2evr5.skadnetwork</string>
 		</dict>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Hakgyoansim_Dunggeunmiso_TTF_R.ttf</string>
+		<string>Hakgyoansim_Dunggeunmiso_TTF_B.ttf</string>
 	</array>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
@@ -50,8 +73,6 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
@@ -60,28 +81,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>UIAppFonts</key>
-    <array>
-        <string>Hakgyoansim_Dunggeunmiso_TTF_R.ttf</string>
-        <string>Hakgyoansim_Dunggeunmiso_TTF_B.ttf</string>
-    </array>
-    <key>UISupportedInterfaceOrientations</key>
-    <array>
-        <string>UIInterfaceOrientationPortrait</string>
-    </array>
-    <key>NSUbiquitousContainers</key>
-    <dict>
-        <key>iCloud.com.seungrain.dailyDiary</key>
-        <dict>
-            <key>NSUbiquitousContainerIsDocumentScopePublic</key>
-            <true/>
-            <key>NSUbiquitousContainerSupportedFolderLevels</key>
-            <string>Any</string>
-        </dict>
-    </dict>
-    <key>NSUbiquitousKeyValueStoreUsageDescription</key>
-    <string>이 앱은 iCloud Drive를 이용하여 데이터를 백업 및 복원합니다.</string>
-    <key>NSFileProviderDomainUsageDescription</key>
-    <string>이 앱은 iCloud Drive에서 파일을 저장하고 불러오기 위해 필요합니다.</string>
 </dict>
 </plist>

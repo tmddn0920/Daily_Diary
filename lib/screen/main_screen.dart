@@ -200,7 +200,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildCalendar() {
     return Expanded(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Calendar(
           selectedDate: selectedDate,
           onDaySelected: onDaySelected,
