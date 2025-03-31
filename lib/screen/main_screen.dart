@@ -59,7 +59,7 @@ class _MainScreenState extends State<MainScreen> {
 
     final diaryEntries = await db.diaryDao.getDiariesForMonth(
       DateTime(date.year, date.month, 1),
-      DateTime(date.year, date.month + 1, 0),
+      DateTime(date.year, date.month + 1, 1).subtract(Duration(milliseconds: 1)),
     );
 
     setState(() {
